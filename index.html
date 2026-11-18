@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сигнал Wow! — 15 августа 1977 · Радиотелескоп Big Ear</title>
+  <meta name="description" content="Интерактивное научное исследование сигнала Wow! (6EQUJ5), зафиксированного 15 августа 1977 года радиотелескопом Big Ear на частоте водородной линии 1420 МГц.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #04060a;
+      --bg-panel: #0b1018;
+      --bg-panel-elevated: #111824;
+      --bg-glass: rgba(11, 16, 24, 0.82);
+      --border-subtle: rgba(148, 163, 184, 0.16);
+      --border-accent: rgba(34, 211, 238, 0.35);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --cyan: #22d3ee;
+      --cyan-dim: rgba(34, 211, 238, 0.14);
+      --red-ink: #ef4444;
+      --red-glow: rgba(239, 68, 68, 0.25);
+      --amber: #f59e0b;
+      --emerald: #10b981;
+      --font-sans: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-hand: 'Caveat', cursive;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --max-w: 1200px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 35%, rgba(239, 68, 68, 0.05) 0%, transparent 40%),
+        var(--bg-void);
+      min-height: 100vh;
+    }
+
+    /* Subtle CRT / Observatory scanlines */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.14) 3px
+      );
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    /* Background Starfield Canvas */
+    #cosmos-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Typography helpers */
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--cyan-dim);
+      color: var(--cyan);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse-dot 2s infinite;
+    }
+
+    .badge-red {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.32);
+    }
+
+    .badge-red .badge-dot {
+      background: var(--red-ink);
+      box-shadow: 0 0 8px var(--red-ink);
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* Header Navigation */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(4, 6, 10, 0.84);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-mark {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 4px 9px;
+      border: 1.5px solid var(--red-ink);
+      border-radius: 999px;
+      color: var(--red-ink);
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-sub {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.86rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cyan);
+    }
+
+    .audio-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-panel-elevated);
+      border: 1px solid var(--border-accent);
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .audio-btn:hover {
+      background: rgba(34, 211, 238, 0.16);
+      box-shadow: 0 0 16px rgba(34, 211, 238, 0.18);
+    }
+
+    .audio-btn.playing {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: var(--red-ink);
+      color: #fca5a5;
+    }
+
+    .eq-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .eq-bars span {
+      width: 2px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: height 0.15s ease;
+    }
+
+    .audio-btn.playing .eq-bars span:nth-child(1) { animation: eq 0.5s infinite alternate; }
+    .audio-btn.playing .eq-bars span:nth-child(2) { animation: eq 0.35s 0.1s infinite alternate; }
+    .audio-btn.playing .eq-bars span:nth-child(3) { animation: eq 0.6s 0.2s infinite alternate; }
+    .audio-btn.playing .eq-bars span:nth-child(4) { animation: eq 0.4s 0.05s infinite alternate; }
+
+    @keyframes eq {
+      from { height: 3px; }
+      to { height: 12px; }
+    }
+
+    /* Sections */
+    section {
+      padding: 88px 0;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 42px;
+      max-width: 760px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3.2vw, 2.55rem);
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.04rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 72px 0 64px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.4vw, 3.65rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .wow-highlight {
+      color: var(--red-ink);
+      position: relative;
+      display: inline-block;
+      padding: 0 6px;
+    }
+
+    .hero h1 .wow-highlight::after {
+      content: "";
+      position: absolute;
+      inset: -2px -6px;
+      border: 2px solid var(--red-ink);
+      border-radius: 50% 45% 55% 40%;
+      transform: rotate(-3deg);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .hero-lead {
+      font-size: 1.12rem;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 13px 22px;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.22s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #030712;
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: #67e8f9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-panel-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .stat-item .stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stat-item .stat-lbl {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Live Oscilloscope Card in Hero */
+    .scope-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scope-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .scope-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--emerald);
+    }
+
+    #hero-scope {
+      width: 100%;
+      height: 250px;
+      display: block;
+      background: #04080f;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(34, 211, 238, 0.16);
+    }
+
+    .scope-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .scope-readout {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .scope-readout strong {
+      color: var(--red-ink);
+    }
+
+    /* Section 1: Interactive IBM 1130 Printout (6EQUJ5) */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .printout-shell {
+      background: #14171c;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .printout-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .printout-paper {
+      background: #e9e4d5;
+      color: #1e293b;
+      border-radius: var(--radius-sm);
+      padding: 18px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      position: relative;
+      overflow-x: auto;
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .printout-paper.phosphor-mode {
+      background: #060d14;
+      color: #5eead4;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+    }
+
+    /* Tractor-feed perforated paper stripes */
+    .printout-paper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(34, 197, 94, 0.08) 0px,
+        rgba(34, 197, 94, 0.08) 22px,
+        transparent 22px,
+        transparent 44px
+      );
+      pointer-events: none;
+    }
+
+    .printout-paper.phosphor-mode::before {
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(34, 211, 238, 0.04) 0px,
+        rgba(34, 211, 238, 0.04) 22px,
+        transparent 22px,
+        transparent 44px
+      );
+    }
+
+    .paper-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      opacity: 0.72;
+      border-bottom: 1px dashed currentColor;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .matrix-wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 8px;
+      min-width: 480px;
+    }
+
+    .row-timestamps {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.66rem;
+      opacity: 0.65;
+      user-select: none;
+    }
+
+    .row-timestamps div {
+      height: 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .matrix-rows {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: repeat(22, 1fr);
+      height: 24px;
+      align-items: center;
+      text-align: center;
+      border-radius: 3px;
+      transition: background 0.18s ease;
+    }
+
+    .matrix-row.active-row {
+      background: rgba(239, 68, 68, 0.16);
+    }
+
+    .cell {
+      user-select: none;
+      opacity: 0.65;
+      font-weight: 500;
+    }
+
+    .cell.blank {
+      opacity: 0.15;
+    }
+
+    .cell.wow-char {
+      opacity: 1;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #b91c1c;
+      cursor: pointer;
+      position: relative;
+      border-radius: 3px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .printout-paper.phosphor-mode .cell.wow-char {
+      color: #ff4d4d;
+      text-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+    }
+
+    .cell.wow-char:hover,
+    .cell.wow-char.selected {
+      background: rgba(239, 68, 68, 0.24);
+      transform: scale(1.25);
+      z-index: 5;
+    }
+
+    /* Ehman's Red Pen Overlay */
+    .ehman-overlay {
+      position: absolute;
+      left: calc(6.818% - 26px);
+      top: 112px;
+      width: 52px;
+      height: 160px;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .ehman-circle {
+      fill: none;
+      stroke: #dc2626;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 2px rgba(220, 38, 38, 0.4));
+    }
+
+    .ehman-handwriting {
+      position: absolute;
+      left: calc(6.818% + 28px);
+      top: 152px;
+      font-family: var(--font-hand);
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #dc2626;
+      transform: rotate(-8deg);
+      pointer-events: none;
+      z-index: 4;
+      line-height: 1;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /* Telemetry Inspector Panel */
+    .inspector-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .char-pills {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .char-pill {
+      padding: 10px 4px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-panel-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s ease;
+    }
+
+    .char-pill:hover {
+      border-color: var(--red-ink);
+    }
+
+    .char-pill.active {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: var(--red-ink);
+      color: #fca5a5;
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.22);
+    }
+
+    .inspector-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .metric-box {
+      background: rgba(4, 6, 10, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .metric-box .m-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .metric-box .m-val {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-top: 4px;
+    }
+
+    .beam-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 110px;
+      padding: 12px 12px 0;
+      background: rgba(4, 6, 10, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+
+    .beam-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .beam-bar-fill {
+      width: 100%;
+      background: rgba(34, 211, 238, 0.35);
+      border-top: 2px solid var(--cyan);
+      border-radius: 3px 3px 0 0;
+      transition: all 0.25s ease;
+    }
+
+    .beam-bar-col.active .beam-bar-fill {
+      background: rgba(239, 68, 68, 0.45);
+      border-top-color: var(--red-ink);
+    }
+
+    .beam-bar-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      padding-bottom: 6px;
+    }
+
+    /* Section 2: Big Ear Dual Horn Simulator */
+    .sim-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+    }
+
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sim-mode-toggle {
+      display: inline-flex;
+      background: #04060a;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+    }
+
+    .sim-mode-btn {
+      padding: 7px 13px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.18s ease;
+    }
+
+    .sim-mode-btn.active {
+      background: var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    #horn-canvas {
+      width: 100%;
+      height: 310px;
+      display: block;
+      background: #04080f;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: var(--radius-sm);
+    }
+
+    .sim-scrubber {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 999px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cyan);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+    }
+
+    .sim-explain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .explain-box {
+      background: rgba(4, 6, 10, 0.5);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .explain-box h4 {
+      font-size: 0.94rem;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .explain-box p {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+    }
+
+    /* Section 3: Telemetry & 1420 MHz Spectrum */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .tele-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: border-color 0.2s ease;
+    }
+
+    .tele-card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .tele-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .tele-val {
+      font-family: var(--font-mono);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin: 8px 0 6px;
+    }
+
+    .tele-sub {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+    }
+
+    .spectrum-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .spectrum-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    #spectrum-canvas {
+      width: 100%;
+      height: 260px;
+      display: block;
+      background: #04080f;
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      border-radius: var(--radius-sm);
+      cursor: crosshair;
+    }
+
+    /* Section 4: Three Hypotheses */
+    .hypo-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .hypo-tab {
+      text-align: left;
+      padding: 18px 20px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .hypo-tab:hover {
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
+    .hypo-tab.active {
+      background: var(--bg-panel-elevated);
+      border-color: var(--cyan);
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.1);
+    }
+
+    .hypo-tab .ht-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .hypo-tab h3 {
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+
+    .hypo-detail {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+    }
+
+    .hypo-detail h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .hypo-detail p {
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+    }
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 14px;
+      background: rgba(4, 6, 10, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+    }
+
+    .pill-status {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .status-yes {
+      background: rgba(16, 185, 129, 0.16);
+      color: #6ee7b7;
+    }
+
+    .status-warn {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fcd34d;
+    }
+
+    .status-no {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+    }
+
+    /* Section 5: Timeline 1977 - 2026 */
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-left: 28px;
+      border-left: 2px solid rgba(34, 211, 238, 0.25);
+    }
+
+    .tl-item {
+      position: relative;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tl-item:hover {
+      border-color: var(--border-accent);
+      transform: translateX(4px);
+    }
+
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -35px;
+      top: 24px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--bg-void);
+      border: 2px solid var(--cyan);
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+    }
+
+    .tl-item.tl-highlight {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), var(--bg-panel));
+    }
+
+    .tl-item.tl-highlight::before {
+      border-color: var(--red-ink);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+    }
+
+    .tl-item.tl-2026 {
+      border-color: rgba(34, 211, 238, 0.45);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), var(--bg-panel));
+    }
+
+    .tl-year {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .tl-item.tl-highlight .tl-year {
+      color: #fca5a5;
+    }
+
+    .tl-item h3 {
+      font-size: 1.12rem;
+      margin-bottom: 8px;
+    }
+
+    .tl-item p {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 44px 0 56px;
+      background: rgba(4, 6, 10, 0.9);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-note {
+      max-width: 560px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-grid,
+      .artifact-grid,
+      .hypo-detail {
+        grid-template-columns: 1fr;
+      }
+
+      .telemetry-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sim-explain-grid,
+      .hypo-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section {
+        padding: 60px 0;
+      }
+
+      .telemetry-grid,
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .header-inner {
+        height: 60px;
+      }
+
+      .brand-sub {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="cosmos-bg" aria-hidden="true"></canvas>
+
+  <!-- Sticky Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark">6EQUJ5</span>
+        <div>
+          <span class="brand-title">СИГНАЛ WOW!</span>
+          <span class="brand-sub">BIG EAR · 15.08.1977 · 1420.405 МГц</span>
+        </div>
+      </a>
+
+      <nav aria-label="Разделы сайта">
+        <ul class="nav-links">
+          <li><a href="#artifact">Распечатка</a></li>
+          <li><a href="#big-ear">72 секунды</a></li>
+          <li><a href="#spectrum">Спектр 1420 МГц</a></li>
+          <li><a href="#hypotheses">Гипотезы</a></li>
+          <li><a href="#timeline">1977–2026</a></li>
+        </ul>
+      </nav>
+
+      <button id="global-audio-btn" class="audio-btn" type="button" title="Воспроизвести звуковую модель узкополосного сигнала 1420 МГц">
+        <span class="eq-bars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span id="audio-btn-label">Слушать сигнал</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-meta-row">
+            <span class="badge badge-red"><span class="badge-dot"></span> Космос · 15 августа 1977</span>
+            <span class="badge"><span class="badge-dot"></span> Архив SETI · 2026</span>
+          </div>
+
+          <h1>
+            Сигнал <span class="wow-highlight">Wow!</span> — возможно, кто-то пытался связаться с Землёй
+          </h1>
+
+          <p class="hero-lead">
+            Поздним вечером 15 августа 1977 года радиотелескоп <strong>Big Ear</strong> в штате Огайо зафиксировал необычайно мощный узкополосный радиосигнал из созвездия Стрельца. Спустя несколько дней астроном <strong>Джерри Эманн</strong> просматривал машинную распечатку, обвёл загадочную строку красной ручкой и написал на полях одно слово: <em>Wow!</em>
+          </p>
+
+          <div class="hero-actions">
+            <a href="#artifact" class="btn btn-primary">Изучить код 6EQUJ5</a>
+            <button id="hero-play-btn" class="btn btn-secondary" type="button">
+              ▶ Услышать 72-секундный импульс (ускор. ×6)
+            </button>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-val">~72 сек</div>
+              <div class="stat-lbl">Длительность импульса</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">30.5 σ</div>
+              <div class="stat-lbl">Превышение над шумом</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">0 повторов</div>
+              <div class="stat-lbl">За 49 лет наблюдений</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scope-card">
+          <div class="scope-topbar">
+            <span class="scope-status"><span class="badge-dot"></span> RX: 1420.4056 MHz · CH 02</span>
+            <span id="scope-timer">T = 00.0s / 72.0s</span>
+          </div>
+          <canvas id="hero-scope"></canvas>
+          <div class="scope-footer">
+            <div class="scope-readout">
+              Интенсивность: <strong id="scope-snr-val">6.0 σ</strong> · Профиль луча антенны
+            </div>
+            <button id="replay-scope-btn" class="audio-btn" type="button" style="padding: 5px 10px; font-size: 0.72rem;">
+              Перезапуск профиля
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: Interactive Printout Artifact -->
+    <section id="artifact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">01 · Исторический артефакт</span>
+          <h2 class="section-title">Тайна шести символов: 6EQUJ5</h2>
+          <p class="section-desc">
+            Компьютер IBM 1130 записывал мощность радиошума в 50 узких частотных каналах каждые 12 секунд. Цифры 1–9 означали превышение фона в 1–9 раз, а буквы A–Z — от 10 до 35. Нажмите на любой символ внутри красного овала, чтобы расшифровать запись Джерри Эманна.
+          </p>
+        </div>
+
+        <div class="artifact-grid">
+          <div class="printout-shell">
+            <div class="printout-toolbar">
+              <span class="mono" style="font-size: 0.76rem; color: var(--text-secondary);">
+                IBM 1130 LINE PRINTER · OSU RADIO OBSERVATORY
+              </span>
+              <div style="display: flex; gap: 8px;">
+                <button id="toggle-paper-btn" class="audio-btn" type="button" style="padding: 6px 10px; font-size: 0.72rem;">
+                  Режим фосфора
+                </button>
+                <button id="scan-wow-btn" class="audio-btn" type="button" style="padding: 6px 10px; font-size: 0.72rem;">
+                  ▶ Сканировать 72 с
+                </button>
+              </div>
+            </div>
+
+            <div id="printout-paper" class="printout-paper">
+              <div class="paper-header">
+                <span>DATE: 08/15/77 22:16 EDT</span>
+                <span>RA: 19H 22M 24S | DEC: -27° 03'</span>
+                <span>CH 01–22</span>
+              </div>
+
+              <div class="matrix-wrap">
+                <div class="row-timestamps" id="row-timestamps"></div>
+                <div class="matrix-rows" id="matrix-rows">
+                  <!-- Generated by JS -->
+                  <svg class="ehman-overlay" viewBox="0 0 56 164" aria-hidden="true">
+                    <path class="ehman-circle" d="M 27 8 C 44 6, 51 32, 49 82 C 47 132, 40 156, 26 155 C 12 154, 6 122, 7 78 C 8 34, 15 10, 32 9" />
+                  </svg>
+                  <div class="ehman-handwriting">Wow!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Inspector -->
+          <div class="inspector-card">
+            <div>
+              <span class="mono" style="font-size: 0.72rem; color: var(--cyan); text-transform: uppercase;">
+                Декодер сигнала · Канал №2
+              </span>
+              <h3 style="font-size: 1.35rem; margin: 6px 0 14px;">Инспектор импульса</h3>
+
+              <div class="char-pills" id="char-pills">
+                <!-- Buttons generated by JS -->
+              </div>
+            </div>
+
+            <div class="inspector-metrics">
+              <div class="metric-box">
+                <div class="m-label">Окно времени</div>
+                <div class="m-val" id="insp-time">36 – 48 с</div>
+              </div>
+              <div class="metric-box">
+                <div class="m-label">Отношение С/Ш</div>
+                <div class="m-val" id="insp-snr" style="color: var(--red-ink);">30 – 31 σ</div>
+              </div>
+              <div class="metric-box">
+                <div class="m-label">Код АЦП</div>
+                <div class="m-val" id="insp-code">U</div>
+              </div>
+              <div class="metric-box">
+                <div class="m-label">Оценка потока</div>
+                <div class="m-val" id="insp-flux">~212 Ян</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="mono" style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px;">
+                КРИВАЯ ПРОХОЖДЕНИЯ ЛУЧА BIG EAR (12-секундные интервалы)
+              </div>
+              <div class="beam-bars" id="beam-bars">
+                <!-- Bars generated by JS -->
+              </div>
+            </div>
+
+            <p id="insp-note" style="font-size: 0.88rem; color: var(--text-secondary); background: rgba(4,6,10,0.45); padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--red-ink);">
+              Пик интенсивности: символ <strong>U</strong> означает сигнал в 30–31 раз мощнее фонового космического шума. Идеальная колоколообразная форма кривой доказывает, что источник находился за пределами атмосферы и медленно прошёл через диаграмму направленности антенны вместе с вращением Земли.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Big Ear Dual-Horn 72s Mystery -->
+    <section id="big-ear" style="border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">02 · Механика открытия</span>
+          <h2 class="section-title">Почему 72 секунды — и почему только один раз?</h2>
+          <p class="section-desc">
+            Антенна Big Ear была неподвижна и сканировала небо за счёт суточного вращения Земли. У телескопа было <strong>два приёмных рупора</strong> (Западный и Восточный), разнесённых примерно на 3 минуты времени. Любой настоящий космический объект обязан попасть в первый рупор на 72 секунды, исчезнуть, а затем снова появиться во втором рупоре с обратным знаком.
+          </p>
+        </div>
+
+        <div class="sim-panel">
+          <div class="sim-controls">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button id="sim-play-btn" class="btn btn-primary" type="button" style="padding: 9px 16px; font-size: 0.84rem;">
+                ⏸ Пауза
+              </button>
+              <button id="sim-reset-btn" class="btn btn-secondary" type="button" style="padding: 9px 14px; font-size: 0.84rem;">
+                Сброс
+              </button>
+            </div>
+
+            <div class="sim-mode-toggle" role="group" aria-label="Режим симуляции рупоров">
+              <button class="sim-mode-btn active" data-sim-mode="actual" type="button">
+                Реальность 1977 (1 импульс)
+              </button>
+              <button class="sim-mode-btn" data-sim-mode="expected" type="button">
+                Ожидаемый маяк (2 импульса)
+              </button>
+            </div>
+          </div>
+
+          <canvas id="horn-canvas"></canvas>
+
+          <div class="sim-scrubber">
+            <span class="mono" style="font-size: 0.78rem; color: var(--text-muted);">Сдвиг: <strong id="sim-time-readout" style="color: var(--cyan);">0 с</strong></span>
+            <input id="sim-slider" type="range" min="-150" max="150" value="-120" step="1" aria-label="Временная шкала прохождения через рупоры">
+            <span class="mono" style="font-size: 0.76rem; color: var(--text-secondary);">Шаг Земли: 15°/час</span>
+          </div>
+
+          <div class="sim-explain-grid">
+            <div class="explain-box">
+              <h4>1. Идеальный 72-секундный транзит</h4>
+              <p>Ширина диаграммы направленности каждого рупора по прямому восхождению соответствовала ровно 72 секундам вращения Земли. Профиль <code>6EQUJ5</code> совпадает с ней математически.</p>
+            </div>
+            <div class="explain-box">
+              <h4>2. Загадка двух рупоров</h4>
+              <p>Компьютер вычитал сигнал второго рупора из первого, чтобы гасить земные помехи. Поэтому мы знаем, что сигнал был только в одном из рупоров — но неизвестно, в каком именно.</p>
+            </div>
+            <div class="explain-box">
+              <h4>3. Вспышка или выключенный луч?</h4>
+              <p>Если источник в космосе не исчез сам за 3 минуты, второй рупор должен был записать отрицательную копию <code>6EQUJ5</code>. Её отсутствие — главная улика либо в пользу краткой вспышки, либо редкой помехи.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Technical Telemetry & 1420 MHz Spectrum -->
+    <section id="spectrum" style="border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">03 · Радиоастрономический профиль</span>
+          <h2 class="section-title">Водородная линия 1420.4056 МГц</h2>
+          <p class="section-desc">
+            Сигнал был зарегистрирован в самой «тихой» и символичной точке радиоспектра Вселенной — на частоте излучения нейтрального водорода (длина волны 21 см), которую физики Джузеппе Коккони и Филип Моррисон ещё в 1959 году предложили как универсальный канал для межзвёздной связи.
+          </p>
+        </div>
+
+        <div class="telemetry-grid">
+          <div class="tele-card">
+            <div class="tele-kicker">Несущая частота</div>
+            <div class="tele-val">1420.4056</div>
+            <div class="tele-sub">МГц (линия HI, 21 см) · точность ±0.005 МГц</div>
+          </div>
+          <div class="tele-card">
+            <div class="tele-kicker">Ширина полосы</div>
+            <div class="tele-val">&lt; 10 кГц</div>
+            <div class="tele-sub">Экстремально узкий канал (одна колонка распечатки)</div>
+          </div>
+          <div class="tele-card">
+            <div class="tele-kicker">Координаты J2000</div>
+            <div class="tele-val" style="font-size: 1.25rem;">19h25m / -26°57′</div>
+            <div class="tele-sub">Созвездие Стрельца, близ группы звёзд χ Sagittarii</div>
+          </div>
+          <div class="tele-card">
+            <div class="tele-kicker">Защита диапазона</div>
+            <div class="tele-val">1400–1427</div>
+            <div class="tele-sub">МГц — глобально запрещён для земных передатчиков</div>
+          </div>
+        </div>
+
+        <div class="spectrum-box">
+          <div class="spectrum-header">
+            <div>
+              <span class="mono" style="font-size: 0.74rem; color: var(--cyan);">АНАЛИЗАТОР СПЕКТРА · 50 КАНАЛОВ ПО 10 КГЦ</span>
+              <h3 style="font-size: 1.15rem; margin-top: 2px;">Сравнение спектральной сигнатуры</h3>
+            </div>
+            <div class="sim-mode-toggle" id="spec-mode-group">
+              <button class="sim-mode-btn active" data-spec="wow" type="button">Сигнал Wow!</button>
+              <button class="sim-mode-btn" data-spec="natural" type="button">Широкополосный космос</button>
+              <button class="sim-mode-btn" data-spec="rfi" type="button">Земная помеха (RFI)</button>
+            </div>
+          </div>
+
+          <canvas id="spectrum-canvas"></canvas>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 10px;">
+            <span id="spec-caption" class="mono" style="font-size: 0.78rem; color: var(--text-secondary);">
+              Вся энергия 30.5σ сосредоточена строго в одном 10-килогерцовом канале — соседние каналы №1 и №3 абсолютно чисты.
+            </span>
+            <span id="spec-hover-info" class="mono" style="font-size: 0.78rem; color: var(--cyan);">
+              Наведите курсор на спектр для замера
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Three Hypotheses -->
+    <section id="hypotheses" style="border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">04 · Главная загадка</span>
+          <h2 class="section-title">Что породило сигнал: три версии науки</h2>
+          <p class="section-desc">
+            За почти полвека астрофизики и специалисты SETI проверили десятки сценариев — от комет и секретных спутников до внеземного маяка. Переключайтесь между гипотезами, чтобы оценить аргументы «за» и «против».
+          </p>
+        </div>
+
+        <div class="hypo-tabs" role="tablist">
+          <button class="hypo-tab active" data-hypo="natural" type="button">
+            <span class="ht-tag">Версия 01 · Фокус 2024–2026</span>
+            <h3>Редкое природное явление</h3>
+          </button>
+          <button class="hypo-tab" data-hypo="terrestrial" type="button">
+            <span class="ht-tag">Версия 02 · Инженерный скепсис</span>
+            <h3>Земная или орбитальная помеха</h3>
+          </button>
+          <button class="hypo-tab" data-hypo="artificial" type="button">
+            <span class="ht-tag">Версия 03 · Классика SETI</span>
+            <h3>Нечто искусственное</h3>
+          </button>
+        </div>
+
+        <div class="hypo-detail" id="hypo-detail">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Timeline 1977 - 2026 -->
+    <section id="timeline" style="border-top: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">05 · Хронология расследования</span>
+          <h2 class="section-title">От красной ручки 1977 года к науке 2026 года</h2>
+          <p class="section-desc">
+            Сигнал длился всего 72 секунды, но дискуссия вокруг него не утихает почти 50 лет. В 2026 году исследователи продолжают переосмысливать данные с помощью новых наблюдений и астрофизических моделей.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <article class="tl-item tl-highlight">
+            <span class="tl-year">15 АВГУСТА 1977 · 22:16 EDT</span>
+            <h3>Фиксация 6EQUJ5 на радиотелескопе Big Ear</h3>
+            <p>
+              Волонтёр-астроном Джерри Эманн проверяет распечатку IBM 1130 за 15 августа, обнаруживает всплеск интенсивности в 30 раз выше шума на частоте водорода 1420 МГц, обводит столбец и пишет на полях легендарное <strong>«Wow!»</strong>.
+            </p>
+          </article>
+
+          <article class="tl-item">
+            <span class="tl-year">1987–1999 · ПОИСКИ ПОВТОРА</span>
+            <h3>Десятки часов наблюдений на META, VLA и Mount Pleasant</h3>
+            <p>
+              Сам Джерри Эманн, а затем Роберт Грей многократно наводят крупнейшие телескопы мира (включая решётку VLA и 26-метровый телескоп в Тасмании) на оба возможных участка неба в Стрельце. Сигнал не повторяется ни разу.
+            </p>
+          </article>
+
+          <article class="tl-item">
+            <span class="tl-year">2012–2017 · КОМЕТНАЯ ДИСКУССИЯ</span>
+            <h3>Ответ из Аресибо и спор о кометах 266P/Christensen</h3>
+            <p>
+              В 2012 году обсерватория Аресибо отправляет в сторону Стрельца символическое ответное послание человечества. В 2017 году выдвигается версия, что источником стало водородное облако кометы 266P/Christensen, но коллектив Big Ear быстро её опровергает: кометы излучают в слишком широкой полосе и были вне координат луча в нужное время.
+            </p>
+          </article>
+
+          <article class="tl-item">
+            <span class="tl-year">2020–2022 · КАТАЛОГ GAIA</span>
+            <h3>Поиск солнцеподобных звёзд-кандидатов</h3>
+            <p>
+              Астроном Альберто Кабальеро анализирует каталог космического телескопа Gaia и выделяет звезду <code>2MASS 19281982-2640123</code> в 1800 световых годах от нас — почти точный аналог Солнца. Последующее прослушивание в 2022 году (ATA и телескоп Грин-Бэнк) техносигнатур не выявляет.
+            </p>
+          </article>
+
+          <article class="tl-item tl-2026">
+            <span class="tl-year">2024–2026 · ПРОЕКТ ARECIBO WOW! И НОВЫЕ СПОРЫ</span>
+            <h3>Стимулированное излучение водорода и вспышки магнетаров</h3>
+            <p>
+              Команда планетологов и радиоастрономов во главе с Абелем Мендесом (проект <em>Arecibo Wow!</em>), изучая архивные данные Аресибо, обнаруживает похожие, но более слабые узкополосные сигналы от холодных облаков нейтрального водорода (HI). В 2026 году исследователи продолжают проверять естественную модель: могла ли мощная вспышка далёкого магнетара или мягкого гамма-репитера «подсветить» межзвёздное водородное облако, вызвав кратковременный космический мазер-импульс именно на 1420 МГц. Окончательная точка всё ещё не поставлена.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <span class="brand-mark">6EQUJ5</span>
+          <strong>Сигнал Wow! · Интерактивный научный архив</strong>
+        </div>
+        <p class="footer-note">
+          Все параметры сигнала (профиль 6EQUJ5, 12-секундные интервалы интеграции, частота 1420.4056 МГц, двухрупорная геометрия телескопа Big Ear) воспроизведены по историческим документам Обсерватории штата Огайо (OSU) и публикациям Джерри Эманна. Звуковая модель синтезируется в реальном времени средствами Web Audio API.
+        </p>
+      </div>
+      <div class="mono" style="font-size: 0.78rem; color: var(--text-muted); text-align: right;">
+        <div>RA 19h 22m 24.64s (B1950)</div>
+        <div>DEC -27° 03′ ± 20′</div>
+        <div style="color: var(--cyan); margin-top: 6px;">STATUS: UNEXPLAINED · 1977–2026</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =========================================================
+         1. BACKGROUND STARFIELD & RADIO INTERFEROMETRY GRID
+      ========================================================= */
+      const bgCanvas = document.getElementById('cosmos-bg');
+      const bgCtx = bgCanvas.getContext('2d');
+      let stars = [];
+
+      function resizeBg() {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+        const count = Math.min(180, Math.floor((bgCanvas.width * bgCanvas.height) / 9500));
+        stars = Array.from({ length: count }, () => ({
+          x: Math.random() * bgCanvas.width,
+          y: Math.random() * bgCanvas.height,
+          r: Math.random() * 1.3 + 0.3,
+          a: Math.random() * 0.65 + 0.15,
+          speed: Math.random() * 0.12 + 0.03
+        }));
+      }
+
+      function renderBg(t) {
+        bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+        // Subtle coordinate grid
+        bgCtx.strokeStyle = 'rgba(148, 163, 184, 0.03)';
+        bgCtx.lineWidth = 1;
+        const step = 90;
+        for (let x = 0; x < bgCanvas.width; x += step) {
+          bgCtx.beginPath();
+          bgCtx.moveTo(x, 0);
+          bgCtx.lineTo(x, bgCanvas.height);
+          bgCtx.stroke();
+        }
+        for (let y = 0; y < bgCanvas.height; y += step) {
+          bgCtx.beginPath();
+          bgCtx.moveTo(0, y);
+          bgCtx.lineTo(bgCanvas.width, y);
+          bgCtx.stroke();
+        }
+
+        for (const s of stars) {
+          const twinkle = 0.75 + 0.25 * Math.sin(t * 0.0015 + s.x);
+          bgCtx.fillStyle = `rgba(226, 232, 240, ${s.a * twinkle})`;
+          bgCtx.beginPath();
+          bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          bgCtx.fill();
+          s.y -= s.speed;
+          if (s.y < -4) {
+            s.y = bgCanvas.height + 4;
+            s.x = Math.random() * bgCanvas.width;
+          }
+        }
+        requestAnimationFrame(renderBg);
+      }
+
+      window.addEventListener('resize', resizeBg);
+      resizeBg();
+      requestAnimationFrame(renderBg);
+
+
+      /* =========================================================
+         2. SHARED WOW! DATA MODEL (6EQUJ5)
+      ========================================================= */
+      const wowSequence = [
+        {
+          char: '6',
+          rowIndex: 5,
+          timeWindow: '00 – 12 с',
+          snrRange: '6.0 – 7.0 σ',
+          snrNum: 6.5,
+          flux: '~45 Ян',
+          note: 'Начало входа источника в край диаграммы направленности рупора. Интенсивность уже превышает уровень космического шума в 6–7 раз — редкая флуктуация, но ещё в пределах возможных аномалий.'
+        },
+        {
+          char: 'E',
+          rowIndex: 6,
+          timeWindow: '12 – 24 с',
+          snrRange: '14.0 – 15.0 σ',
+          snrNum: 14.5,
+          flux: '~101 Ян',
+          note: 'Буква E соответствует значению 14 (после 9 компьютер IBM 1130 переходил на латинский алфавит: A=10, B=11, C=12, D=13, E=14). Мощность стремительно растёт.'
+        },
+        {
+          char: 'Q',
+          rowIndex: 7,
+          timeWindow: '24 – 36 с',
+          snrRange: '26.0 – 27.0 σ',
+          snrNum: 26.5,
+          flux: '~184 Ян',
+          note: 'Буква Q означает 26-кратное превышение фонового шума. Обычные космические радиоисточники и случайные скачки почти никогда не достигают такой амплитуды в одном 10-кГц канале.'
+        },
+        {
+          char: 'U',
+          rowIndex: 8,
+          timeWindow: '36 – 48 с',
+          snrRange: '30.0 – 31.0 σ',
+          snrNum: 30.5,
+          flux: '~212 Ян',
+          note: 'Пик интенсивности: символ U означает сигнал примерно в 30.5 раз мощнее фонового космического шума. Идеальная колоколообразная форма кривой доказывает прохождение удалённого источника сквозь луч антенны.'
+        },
+        {
+          char: 'J',
+          rowIndex: 9,
+          timeWindow: '48 – 60 с',
+          snrRange: '19.0 – 20.0 σ',
+          snrNum: 19.5,
+          flux: '~136 Ян',
+          note: 'Симметричный спад мощности (буква J = 19) по мере того, как вращение Земли уводит точку неба от оси чувствительности рупора Big Ear.'
+        },
+        {
+          char: '5',
+          rowIndex: 10,
+          timeWindow: '60 – 72 с',
+          snrRange: '5.0 – 6.0 σ',
+          snrNum: 5.5,
+          flux: '~38 Ян',
+          note: 'Выход из луча на 72-й секунде. После этого канал №2 возвращается к обычному фоновому уровню (0, 1, 2) и больше никогда не регистрирует ничего подобного.'
+        }
+      ];
+
+
+      /* =========================================================
+         3. WEB AUDIO API SONIFIER (1420 MHz RADIO SIGNAL MODEL)
+      ========================================================= */
+      let audioCtx = null;
+      let isPlayingAudio = false;
+      let audioTimer = null;
+      let audioStartTime = 0;
+      const AUDIO_DURATION_SEC = 12; // Compressed 72s -> 12s (x6 speed)
+
+      const globalAudioBtn = document.getElementById('global-audio-btn');
+      const audioBtnLabel = document.getElementById('audio-btn-label');
+      const heroPlayBtn = document.getElementById('hero-play-btn');
+
+      function stopAudio() {
+        isPlayingAudio = false;
+        if (audioTimer) {
+          clearTimeout(audioTimer);
+          audioTimer = null;
+        }
+        if (audioCtx) {
+          try {
+            audioCtx.close();
+          } catch (_) {}
+          audioCtx = null;
+        }
+        globalAudioBtn.classList.remove('playing');
+        audioBtnLabel.textContent = 'Слушать сигнал';
+        heroPlayBtn.textContent = '▶ Услышать 72-секундный импульс (ускор. ×6)';
+      }
+
+      function playWowAudio() {
+        if (isPlayingAudio) {
+          stopAudio();
+          return;
+        }
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          alert('Ваш браузер не поддерживает Web Audio API для синтеза звука.');
+          return;
+        }
+
+        audioCtx = new AudioContextClass();
+        isPlayingAudio = true;
+        audioStartTime = performance.now();
+        globalAudioBtn.classList.add('playing');
+        audioBtnLabel.textContent = 'Остановить звук';
+        heroPlayBtn.textContent = '■ Остановить воспроизведение';
+
+        // 1. Cosmic background static (bandpassed white noise)
+        const bufferSize = audioCtx.sampleRate * AUDIO_DURATION_SEC;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = (Math.random() * 2 - 1) * 0.14;
+        }
+
+        const noiseSource = audioCtx.createBufferSource();
+        noiseSource.buffer = noiseBuffer;
+
+        const noiseFilter = audioCtx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.value = 1100;
+        noiseFilter.Q.value = 1.2;
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.value = 0.25;
+
+        noiseSource.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(audioCtx.destination);
+
+        // 2. Narrowband carrier tone modulated by exact 6EQUJ5 envelope
+        const carrier = audioCtx.createOscillator();
+        carrier.type = 'sine';
+        carrier.frequency.value = 880; // Audible pitch representing 1420.4056 MHz heterodyne beat
+
+        // Slight Doppler drift subtle realism
+        carrier.frequency.setValueAtTime(882, audioCtx.currentTime);
+        carrier.frequency.linearRampToValueAtTime(877, audioCtx.currentTime + AUDIO_DURATION_SEC);
+
+        const carrierGain = audioCtx.createGain();
+        const t0 = audioCtx.currentTime;
+        carrierGain.gain.setValueAtTime(0.001, t0);
+        // 0-1.5s background
+        carrierGain.gain.linearRampToValueAtTime(0.01, t0 + 1.5);
+        // 6 -> E -> Q -> U -> J -> 5 envelope
+        carrierGain.gain.linearRampToValueAtTime(0.09, t0 + 2.5);  // 6
+        carrierGain.gain.linearRampToValueAtTime(0.20, t0 + 4.0);  // E
+        carrierGain.gain.linearRampToValueAtTime(0.36, t0 + 5.5);  // Q
+        carrierGain.gain.linearRampToValueAtTime(0.45, t0 + 6.8);  // U (peak 30.5 sigma)
+        carrierGain.gain.linearRampToValueAtTime(0.26, t0 + 8.3);  // J
+        carrierGain.gain.linearRampToValueAtTime(0.08, t0 + 9.8);  // 5
+        carrierGain.gain.linearRampToValueAtTime(0.002, t0 + AUDIO_DURATION_SEC);
+
+        carrier.connect(carrierGain);
+        carrierGain.connect(audioCtx.destination);
+
+        noiseSource.start(t0);
+        carrier.start(t0);
+        noiseSource.stop(t0 + AUDIO_DURATION_SEC);
+        carrier.stop(t0 + AUDIO_DURATION_SEC);
+
+        // Sync hero scope animation
+        scopeProgress = 0;
+
+        audioTimer = setTimeout(() => {
+          stopAudio();
+        }, AUDIO_DURATION_SEC * 1000);
+      }
+
+      globalAudioBtn.addEventListener('click', playWowAudio);
+      heroPlayBtn.addEventListener('click', playWowAudio);
+
+
+      /* =========================================================
+         4. HERO LIVE OSCILLOSCOPE & BEAM PROFILE CANVAS
+      ========================================================= */
+      const heroScope = document.getElementById('hero-scope');
+      const scopeCtx = heroScope.getContext('2d');
+      const scopeTimerEl = document.getElementById('scope-timer');
+      const scopeSnrEl = document.getElementById('scope-snr-val');
+      const replayScopeBtn = document.getElementById('replay-scope-btn');
+
+      let scopeProgress = 0; // 0 to 1 representing 72s window
+
+      function gaussianBeam(p) {
+        // p in [0,1], peak near 0.56 (matching U at ~40s of 72s)
+        const center = 0.55;
+        const sigma = 0.17;
+        return Math.exp(-Math.pow(p - center, 2) / (2 * sigma * sigma));
+      }
+
+      function resizeScope() {
+        const rect = heroScope.getBoundingClientRect();
+        heroScope.width = rect.width * window.devicePixelRatio;
+        heroScope.height = rect.height * window.devicePixelRatio;
+      }
+
+      function drawHeroScope() {
+        const w = heroScope.width;
+        const h = heroScope.height;
+        const dpr = window.devicePixelRatio || 1;
+
+        scopeCtx.clearRect(0, 0, w, h);
+
+        // Grid lines
+        scopeCtx.strokeStyle = 'rgba(34, 211, 238, 0.08)';
+        scopeCtx.lineWidth = 1;
+        for (let i = 1; i < 6; i++) {
+          const y = (h / 6) * i;
+          scopeCtx.beginPath();
+          scopeCtx.moveTo(0, y);
+          scopeCtx.lineTo(w, y);
+          scopeCtx.stroke();
+        }
+        for (let i = 1; i < 6; i++) {
+          const x = (w / 6) * i;
+          scopeCtx.beginPath();
+          scopeCtx.moveTo(x, 0);
+          scopeCtx.lineTo(x, h);
+          scopeCtx.stroke();
+        }
+
+        // Advance progress
+        const step = isPlayingAudio ? (1 / (AUDIO_DURATION_SEC * 60)) : 0.0022;
+        scopeProgress += step;
+        if (scopeProgress > 1) scopeProgress = 0;
+
+        const baselineY = h * 0.84;
+        const maxAmp = h * 0.68;
+
+        // Draw theoretical 6EQUJ5 Gaussian curve
+        scopeCtx.beginPath();
+        scopeCtx.strokeStyle = 'rgba(239, 68, 68, 0.35)';
+        scopeCtx.lineWidth = 1.5 * dpr;
+        for (let px = 0; px <= w; px += 3) {
+          const p = px / w;
+          const env = gaussianBeam(p);
+          const y = baselineY - env * maxAmp;
+          if (px === 0) scopeCtx.moveTo(px, y);
+          else scopeCtx.lineTo(px, y);
+        }
+        scopeCtx.stroke();
+
+        // Draw noisy radio trace up to current cursor
+        const cursorX = scopeProgress * w;
+        scopeCtx.beginPath();
+        scopeCtx.strokeStyle = '#22d3ee';
+        scopeCtx.lineWidth = 2 * dpr;
+
+        for (let px = 0; px <= cursorX; px += 2) {
+          const p = px / w;
+          const env = gaussianBeam(p);
+          const noise = (Math.sin(px * 0.43 + performance.now() * 0.02) * 0.5 + (Math.random() - 0.5)) * 8 * dpr;
+          const y = baselineY - env * maxAmp + noise;
+          if (px === 0) scopeCtx.moveTo(px, y);
+          else scopeCtx.lineTo(px, y);
+        }
+        scopeCtx.stroke();
+
+        // Plot 6EQUJ5 labels along the curve
+        const markers = [
+          { ch: '6', p: 0.14 },
+          { ch: 'E', p: 0.28 },
+          { ch: 'Q', p: 0.42 },
+          { ch: 'U', p: 0.55 },
+          { ch: 'J', p: 0.70 },
+          { ch: '5', p: 0.85 }
+        ];
+
+        scopeCtx.font = `700 ${12 * dpr}px "IBM Plex Mono", monospace`;
+        scopeCtx.textAlign = 'center';
+        for (const m of markers) {
+          const mx = m.p * w;
+          const my = baselineY - gaussianBeam(m.p) * maxAmp - 10 * dpr;
+          const passed = scopeProgress >= m.p;
+          scopeCtx.fillStyle = passed ? '#ef4444' : 'rgba(148, 163, 184, 0.45)';
+          scopeCtx.fillText(m.ch, mx, Math.max(16 * dpr, my));
+        }
+
+        // Cursor dot
+        const curEnv = gaussianBeam(scopeProgress);
+        const curY = baselineY - curEnv * maxAmp;
+        scopeCtx.fillStyle = '#ef4444';
+        scopeCtx.beginPath();
+        scopeCtx.arc(cursorX, curY, 4.5 * dpr, 0, Math.PI * 2);
+        scopeCtx.fill();
+
+        const sec = (scopeProgress * 72).toFixed(1).padStart(4, '0');
+        const snr = (1.2 + curEnv * 29.3).toFixed(1);
+        scopeTimerEl.textContent = `T = ${sec}s / 72.0s`;
+        scopeSnrEl.textContent = `${snr} σ`;
+
+        requestAnimationFrame(drawHeroScope);
+      }
+
+      replayScopeBtn.addEventListener('click', () => {
+        scopeProgress = 0;
+      });
+
+      window.addEventListener('resize', resizeScope);
+      resizeScope();
+      requestAnimationFrame(drawHeroScope);
+
+
+      /* =========================================================
+         5. INTERACTIVE IBM 1130 PRINTOUT (6EQUJ5 DECODER)
+      ========================================================= */
+      const matrixRowsEl = document.getElementById('matrix-rows');
+      const timestampsEl = document.getElementById('row-timestamps');
+      const charPillsEl = document.getElementById('char-pills');
+      const beamBarsEl = document.getElementById('beam-bars');
+      const printoutPaper = document.getElementById('printout-paper');
+      const togglePaperBtn = document.getElementById('toggle-paper-btn');
+      const scanWowBtn = document.getElementById('scan-wow-btn');
+
+      // Authentic-feeling IBM 1130 matrix: 16 rows x 22 channels, CH02 (index 1) has 6EQUJ5 on rows 5..10
+      const totalRows = 16;
+      const totalCols = 22;
+      const wowColIndex = 1; // Channel 2
+      const wowMap = {};
+      wowSequence.forEach((item) => {
+        wowMap[item.rowIndex] = item;
+      });
+
+      // Deterministic pseudo-random background noise matching Big Ear printouts (mostly blanks, 1, 2, 3, occasional 4)
+      function noiseChar(r, c) {
+        const seed = (r * 37 + c * 17 + 13) % 29;
+        if (seed < 11) return ' ';
+        if (seed < 19) return '1';
+        if (seed < 24) return '2';
+        if (seed < 27) return '3';
+        return '4';
+      }
+
+      // Build matrix & timestamps
+      const rowEls = [];
+      for (let r = 0; r < totalRows; r++) {
+        const ts = document.createElement('div');
+        const totalSec = r * 12;
+        const mm = String(16 + Math.floor(totalSec / 60)).padStart(2, '0');
+        const ss = String(totalSec % 60).padStart(2, '0');
+        ts.textContent = `22:${mm}:${ss}`;
+        timestampsEl.appendChild(ts);
+
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'matrix-row';
+        rowDiv.dataset.row = r;
+
+        for (let c = 0; c < totalCols; c++) {
+          const span = document.createElement('span');
+          span.className = 'cell';
+
+          if (c === wowColIndex && wowMap[r]) {
+            const info = wowMap[r];
+            span.textContent = info.char;
+            span.classList.add('wow-char');
+            span.dataset.char = info.char;
+            span.title = `Нажмите для расшифровки: ${info.char} (${info.snrRange})`;
+            span.addEventListener('click', () => selectWowChar(info.char));
+          } else {
+            const ch = noiseChar(r, c);
+            span.textContent = ch === ' ' ? '·' : ch;
+            if (ch === ' ') span.classList.add('blank');
+          }
+          rowDiv.appendChild(span);
+        }
+        matrixRowsEl.appendChild(rowDiv);
+        rowEls.push(rowDiv);
+      }
+
+      // Build Char Pills & Beam Bars
+      wowSequence.forEach((item) => {
+        const pill = document.createElement('button');
+        pill.type = 'button';
+        pill.className = 'char-pill';
+        pill.textContent = item.char;
+        pill.dataset.char = item.char;
+        pill.addEventListener('click', () => selectWowChar(item.char));
+        charPillsEl.appendChild(pill);
+
+        const barCol = document.createElement('div');
+        barCol.className = 'beam-bar-col';
+        barCol.dataset.char = item.char;
+
+        const barFill = document.createElement('div');
+        barFill.className = 'beam-bar-fill';
+        barFill.style.height = `${Math.round((item.snrNum / 31) * 100)}%`;
+
+        const barLbl = document.createElement('span');
+        barLbl.className = 'beam-bar-lbl';
+        barLbl.textContent = item.char;
+
+        barCol.appendChild(barFill);
+        barCol.appendChild(barLbl);
+        barCol.addEventListener('click', () => selectWowChar(item.char));
+        beamBarsEl.appendChild(barCol);
+      });
+
+      const inspTime = document.getElementById('insp-time');
+      const inspSnr = document.getElementById('insp-snr');
+      const inspCode = document.getElementById('insp-code');
+      const inspFlux = document.getElementById('insp-flux');
+      const inspNote = document.getElementById('insp-note');
+
+      function selectWowChar(char) {
+        const item = wowSequence.find((w) => w.char === char);
+        if (!item) return;
+
+        // Highlight matrix cell & row
+        document.querySelectorAll('.wow-char').forEach((el) => {
+          el.classList.toggle('selected', el.dataset.char === char);
+        });
+        rowEls.forEach((row, idx) => {
+          row.classList.toggle('active-row', idx === item.rowIndex);
+        });
+
+        // Highlight pills & bars
+        document.querySelectorAll('.char-pill').forEach((el) => {
+          el.classList.toggle('active', el.dataset.char === char);
+        });
+        document.querySelectorAll('.beam-bar-col').forEach((el) => {
+          el.classList.toggle('active', el.dataset.char === char);
+        });
+
+        inspTime.textContent = item.timeWindow;
+        inspSnr.textContent = item.snrRange;
+        inspCode.textContent = item.char;
+        inspFlux.textContent = item.flux;
+        inspNote.textContent = item.note;
+      }
+
+      // Default select Peak 'U'
+      selectWowChar('U');
+
+      togglePaperBtn.addEventListener('click', () => {
+        const isPhosphor = printoutPaper.classList.toggle('phosphor-mode');
+        togglePaperBtn.textContent = isPhosphor ? 'Бумага IBM' : 'Режим фосфора';
+      });
+
+      let scanInterval = null;
+      scanWowBtn.addEventListener('click', () => {
+        if (scanInterval) {
+          clearInterval(scanInterval);
+          scanInterval = null;
+          scanWowBtn.textContent = '▶ Сканировать 72 с';
+          return;
+        }
+        let step = 0;
+        scanWowBtn.textContent = '■ Стоп';
+        selectWowChar(wowSequence[0].char);
+        scanInterval = setInterval(() => {
+          step++;
+          if (step >= wowSequence.length) {
+            clearInterval(scanInterval);
+            scanInterval = null;
+            scanWowBtn.textContent = '▶ Сканировать 72 с';
+            return;
+          }
+          selectWowChar(wowSequence[step].char);
+        }, 850);
+      });
+
+
+      /* =========================================================
+         6. BIG EAR DUAL-HORN TRANSIT SIMULATOR
+      ========================================================= */
+      const hornCanvas = document.getElementById('horn-canvas');
+      const hornCtx = hornCanvas.getContext('2d');
+      const simPlayBtn = document.getElementById('sim-play-btn');
+      const simResetBtn = document.getElementById('sim-reset-btn');
+      const simSlider = document.getElementById('sim-slider');
+      const simTimeReadout = document.getElementById('sim-time-readout');
+      const simModeBtns = document.querySelectorAll('[data-sim-mode]');
+
+      let simTime = -120; // -150s to +150s (0s = midpoint between two horns)
+      let simPlaying = true;
+      let simMode = 'actual'; // 'actual' (1 pulse) or 'expected' (2 pulses: + and -)
+
+      function resizeHorn() {
+        const rect = hornCanvas.getBoundingClientRect();
+        hornCanvas.width = rect.width * window.devicePixelRatio;
+        hornCanvas.height = rect.height * window.devicePixelRatio;
+      }
+
+      function hornResponse(t, center) {
+        const sigma = 22; // ~72s full beam width
+        return Math.exp(-Math.pow(t - center, 2) / (2 * sigma * sigma));
+      }
+
+      function drawHornSim() {
+        const w = hornCanvas.width;
+        const h = hornCanvas.height;
+        const dpr = window.devicePixelRatio || 1;
+
+        hornCtx.clearRect(0, 0, w, h);
+
+        if (simPlaying) {
+          simTime += 0.45;
+          if (simTime > 150) simTime = -150;
+          simSlider.value = Math.round(simTime);
+        }
+        simTimeReadout.textContent = `${simTime >= 0 ? '+' : ''}${Math.round(simTime)} с`;
+
+        // Top half: Sky & Dual Horn Beams
+        const skyH = h * 0.48;
+        const graphTop = h * 0.54;
+        const graphH = h * 0.40;
+        const zeroY = graphTop + graphH * 0.55;
+
+        // Divider
+        hornCtx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
+        hornCtx.lineWidth = 1;
+        hornCtx.beginPath();
+        hornCtx.moveTo(0, skyH);
+        hornCtx.lineTo(w, skyH);
+        hornCtx.stroke();
+
+        // Map time [-150, +150] to x
+        const tToX = (t) => ((t + 150) / 300) * (w - 80 * dpr) + 40 * dpr;
+
+        const horn1X = tToX(-75); // West Horn (+)
+        const horn2X = tToX(75);  // East Horn (-)
+        const beamW = 48 * dpr;
+
+        // Draw Horn 1 cone (+)
+        const grad1 = hornCtx.createLinearGradient(0, 20 * dpr, 0, skyH);
+        grad1.addColorStop(0, 'rgba(34, 211, 238, 0.25)');
+        grad1.addColorStop(1, 'rgba(34, 211, 238, 0.03)');
+        hornCtx.fillStyle = grad1;
+        hornCtx.beginPath();
+        hornCtx.ellipse(horn1X, skyH * 0.52, beamW, skyH * 0.36, 0, 0, Math.PI * 2);
+        hornCtx.fill();
+        hornCtx.strokeStyle = 'rgba(34, 211, 238, 0.6)';
+        hornCtx.stroke();
+
+        // Draw Horn 2 cone (-)
+        const grad2 = hornCtx.createLinearGradient(0, 20 * dpr, 0, skyH);
+        grad2.addColorStop(0, 'rgba(245, 158, 11, 0.22)');
+        grad2.addColorStop(1, 'rgba(245, 158, 11, 0.03)');
+        hornCtx.fillStyle = grad2;
+        hornCtx.beginPath();
+        hornCtx.ellipse(horn2X, skyH * 0.52, beamW, skyH * 0.36, 0, 0, Math.PI * 2);
+        hornCtx.fill();
+        hornCtx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
+        hornCtx.stroke();
+
+        hornCtx.font = `600 ${11 * dpr}px "IBM Plex Mono", monospace`;
+        hornCtx.textAlign = 'center';
+        hornCtx.fillStyle = '#22d3ee';
+        hornCtx.fillText('РУПОР 1 (+)', horn1X, 20 * dpr);
+        hornCtx.fillStyle = '#f59e0b';
+        hornCtx.fillText('РУПОР 2 (−)', horn2X, 20 * dpr);
+
+        // Moving source across sky
+        const srcX = tToX(simTime);
+        const srcY = skyH * 0.52;
+        const inHorn1 = hornResponse(simTime, -75);
+        const inHorn2 = simMode === 'expected' ? hornResponse(simTime, 75) : 0;
+        const activePower = Math.max(inHorn1, inHorn2);
+
+        // Source glow
+        hornCtx.fillStyle = `rgba(239, 68, 68, ${0.25 + activePower * 0.65})`;
+        hornCtx.beginPath();
+        hornCtx.arc(srcX, srcY, (10 + activePower * 12) * dpr, 0, Math.PI * 2);
+        hornCtx.fill();
+
+        hornCtx.fillStyle = '#f8fafc';
+        hornCtx.beginPath();
+        hornCtx.arc(srcX, srcY, 4 * dpr, 0, Math.PI * 2);
+        hornCtx.fill();
+
+        hornCtx.fillStyle = '#fca5a5';
+        hornCtx.fillText('Источник 6EQUJ5', srcX, srcY - 18 * dpr);
+
+        // Bottom half: Combined Differenced Recorder Trace (Horn 1 - Horn 2)
+        hornCtx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+        hornCtx.setLineDash([4 * dpr, 4 * dpr]);
+        hornCtx.beginPath();
+        hornCtx.moveTo(20 * dpr, zeroY);
+        hornCtx.lineTo(w - 20 * dpr, zeroY);
+        hornCtx.stroke();
+        hornCtx.setLineDash([]);
+
+        hornCtx.font = `500 ${10 * dpr}px "IBM Plex Mono", monospace`;
+        hornCtx.textAlign = 'left';
+        hornCtx.fillStyle = '#64748b';
+        hornCtx.fillText('ЗАПИСЬ РАЗНОСТНОГО КАНАЛА (РУПОР 1 − РУПОР 2)', 20 * dpr, graphTop + 12 * dpr);
+
+        hornCtx.beginPath();
+        hornCtx.strokeStyle = '#ef4444';
+        hornCtx.lineWidth = 2.2 * dpr;
+
+        const amp = graphH * 0.44;
+        for (let t = -150; t <= simTime; t += 1.5) {
+          const x = tToX(t);
+          const posPulse = hornResponse(t, -75);
+          const negPulse = simMode === 'expected' ? hornResponse(t, 75) : 0;
+          const net = posPulse - negPulse;
+          const jitter = Math.sin(t * 2.1) * 0.025;
+          const y = zeroY - (net + jitter) * amp;
+          if (t === -150) hornCtx.moveTo(x, y);
+          else hornCtx.lineTo(x, y);
+        }
+        hornCtx.stroke();
+
+        // Annotations on graph
+        hornCtx.textAlign = 'center';
+        hornCtx.fillStyle = '#22d3ee';
+        hornCtx.fillText('6EQUJ5 (+30.5σ)', horn1X, zeroY - amp - 8 * dpr);
+
+        if (simMode === 'expected') {
+          hornCtx.fillStyle = '#f59e0b';
+          hornCtx.fillText('Ожидаемый инверсный отклик (−30.5σ)', horn2X, zeroY + amp + 14 * dpr);
+        } else {
+          hornCtx.fillStyle = '#94a3b8';
+          hornCtx.fillText('Второй рупор: тишина (нет повтора)', horn2X, zeroY + 24 * dpr);
+        }
+
+        requestAnimationFrame(drawHornSim);
+      }
+
+      simPlayBtn.addEventListener('click', () => {
+        simPlaying = !simPlaying;
+        simPlayBtn.textContent = simPlaying ? '⏸ Пауза' : '▶ Пуск';
+      });
+
+      simResetBtn.addEventListener('click', () => {
+        simTime = -140;
+        simSlider.value = -140;
+      });
+
+      simSlider.addEventListener('input', (e) => {
+        simPlaying = false;
+        simPlayBtn.textContent = '▶ Пуск';
+        simTime = Number(e.target.value);
+      });
+
+      simModeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          simModeBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          simMode = btn.dataset.simMode;
+        });
+      });
+
+      window.addEventListener('resize', resizeHorn);
+      resizeHorn();
+      requestAnimationFrame(drawHornSim);
+
+
+      /* =========================================================
+         7. 1420 MHz SPECTRUM ANALYZER (50 CHANNELS)
+      ========================================================= */
+      const specCanvas = document.getElementById('spectrum-canvas');
+      const specCtx = specCanvas.getContext('2d');
+      const specCaption = document.getElementById('spec-caption');
+      const specHoverInfo = document.getElementById('spec-hover-info');
+      const specBtns = document.querySelectorAll('[data-spec]');
+
+      let specMode = 'wow';
+      let specHoverCh = -1;
+
+      const specCaptions = {
+        wow: 'Вся энергия 30.5σ сосредоточена строго в одном 10-килогерцовом канале №2 — соседние каналы абсолютно чисты.',
+        natural: 'Типичный природный радиоисточник (комета, остаток сверхновой или пульсар) излучает широкой полосой сразу во многих каналах.',
+        rfi: 'Обычная земная радиопомеха либо имеет модуляцию/боковые лепестки в нескольких каналах, либо держится на экране дольше 72 секунд.'
+      };
+
+      function resizeSpec() {
+        const rect = specCanvas.getBoundingClientRect();
+        specCanvas.width = rect.width * window.devicePixelRatio;
+        specCanvas.height = rect.height * window.devicePixelRatio;
+      }
+
+      function getChannelValues() {
+        const vals = [];
+        for (let ch = 1; ch <= 50; ch++) {
+          let val = 1 + Math.abs(Math.sin(ch * 1.9 + performance.now() * 0.002)) * 1.4;
+          if (specMode === 'wow') {
+            if (ch === 2) val = 30.5;
+          } else if (specMode === 'natural') {
+            // Broad emission hump across channels 14..36
+            const d = (ch - 25) / 8;
+            val += 14 * Math.exp(-(d * d));
+          } else if (specMode === 'rfi') {
+            // Multiple spiky harmonics + sidebands
+            if (ch === 18) val = 24;
+            if (ch === 17 || ch === 19) val = 9.5;
+            if (ch === 36) val = 16;
+            if (ch === 35 || ch === 37) val = 6;
+          }
+          vals.push(val);
+        }
+        return vals;
+      }
+
+      function drawSpectrum() {
+        const w = specCanvas.width;
+        const h = specCanvas.height;
+        const dpr = window.devicePixelRatio || 1;
+        specCtx.clearRect(0, 0, w, h);
+
+        const padL = 44 * dpr;
+        const padR = 18 * dpr;
+        const padT = 24 * dpr;
+        const padB = 34 * dpr;
+        const plotW = w - padL - padR;
+        const plotH = h - padT - padB;
+
+        // Horizontal sigma grid
+        specCtx.font = `500 ${10 * dpr}px "IBM Plex Mono", monospace`;
+        specCtx.textAlign = 'right';
+        [0, 10, 20, 30].forEach((sig) => {
+          const y = padT + plotH - (sig / 34) * plotH;
+          specCtx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
+          specCtx.beginPath();
+          specCtx.moveTo(padL, y);
+          specCtx.lineTo(w - padR, y);
+          specCtx.stroke();
+          specCtx.fillStyle = '#64748b';
+          specCtx.fillText(`${sig}σ`, padL - 6 * dpr, y + 3 * dpr);
+        });
+
+        const vals = getChannelValues();
+        const barW = plotW / 50;
+
+        vals.forEach((v, idx) => {
+          const ch = idx + 1;
+          const x = padL + idx * barW;
+          const barH = (v / 34) * plotH;
+          const y = padT + plotH - barH;
+
+          const isPeakWow = specMode === 'wow' && ch === 2;
+          const isHovered = ch === specHoverCh;
+
+          if (isPeakWow) {
+            specCtx.fillStyle = isHovered ? '#f87171' : '#ef4444';
+          } else if (v > 8) {
+            specCtx.fillStyle = isHovered ? '#67e8f9' : '#f59e0b';
+          } else {
+            specCtx.fillStyle = isHovered ? '#67e8f9' : 'rgba(34, 211, 238, 0.55)';
+          }
+
+          specCtx.fillRect(x + 1.5 * dpr, y, Math.max(2, barW - 3 * dpr), barH);
+
+          if (isPeakWow) {
+            specCtx.textAlign = 'center';
+            specCtx.fillStyle = '#fca5a5';
+            specCtx.fillText('1420.4056 МГц (CH 02)', x + barW * 4, y - 8 * dpr);
+          }
+        });
+
+        // X-axis labels
+        specCtx.textAlign = 'center';
+        specCtx.fillStyle = '#64748b';
+        [1, 10, 20, 30, 40, 50].forEach((ch) => {
+          const x = padL + (ch - 0.5) * barW;
+          specCtx.fillText(`CH${String(ch).padStart(2, '0')}`, x, h - 10 * dpr);
+        });
+
+        requestAnimationFrame(drawSpectrum);
+      }
+
+      specCanvas.addEventListener('mousemove', (e) => {
+        const rect = specCanvas.getBoundingClientRect();
+        const padL = 44;
+        const padR = 18;
+        const relX = e.clientX - rect.left - padL;
+        const plotW = rect.width - padL - padR;
+        if (relX >= 0 && relX <= plotW) {
+          const ch = Math.min(50, Math.max(1, Math.floor((relX / plotW) * 50) + 1));
+          specHoverCh = ch;
+          const freq = (1420.3856 + (ch - 1) * 0.01).toFixed(4);
+          specHoverInfo.textContent = `Канал ${String(ch).padStart(2, '0')} · ${freq} МГц`;
+        } else {
+          specHoverCh = -1;
+        }
+      });
+
+      specCanvas.addEventListener('mouseleave', () => {
+        specHoverCh = -1;
+        specHoverInfo.textContent = 'Наведите курсор на спектр для замера';
+      });
+
+      specBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          specBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          specMode = btn.dataset.spec;
+          specCaption.textContent = specCaptions[specMode];
+        });
+      });
+
+      window.addEventListener('resize', resizeSpec);
+      resizeSpec();
+      requestAnimationFrame(drawSpectrum);
+
+
+      /* =========================================================
+         8. THREE HYPOTHESES EXPLORER
+      ========================================================= */
+      const hypoData = {
+        natural: {
+          title: 'Редкое природное явление (мазерная вспышка HI)',
+          paragraphs: [
+            'Долгое время астрофизики не знали природного процесса, способного породить экстремально узкий (< 10 кГц) радиоимпульс на частоте 1420 МГц длительностью около минуты. Известные космические мазеры (например, гидроксильные OH) обычно светят постоянно или меняются медленнее, а пульсары имеют широкий спектр.',
+            'Однако в 2024–2026 годах исследователи проекта Arecibo Wow! под руководством Абеля Мендеса предложили новую убедительную модель: если мощнейшая вспышка магнетара (мягкого гамма-репитера) проходит сквозь холодное облако нейтрального водорода (HI), она может вызвать кратковременное стимулированное излучение — своего рода природный лазер в радиодиапазоне, дающий яркую узкую вспышку на 1420 МГц.'
+          ],
+          checks: [
+            { label: 'Частота линии водорода 1420 МГц', status: 'Да', cls: 'status-yes' },
+            { label: 'Узкая полоса < 10 кГц', status: 'Возможно (мазер HI)', cls: 'status-warn' },
+            { label: 'Отсутствие во 2-м рупоре', status: 'Объяснимо вспышкой', cls: 'status-yes' },
+            { label: 'Повторное наблюдение', status: 'Не зафиксировано', cls: 'status-no' }
+          ]
+        },
+        terrestrial: {
+          title: 'Земная помеха или отражение от спутника',
+          paragraphs: [
+            'Сразу после открытия Джерри Эманн пытался списать сигнал на земную радиопомеху (RFI). Однако диапазон 1400–1427 МГц защищён международными соглашениями — работа радиопередатчиков на этой частоте запрещена во всём мире.',
+            'Кроме того, идеальный 72-секундный колокол 6EQUJ5 точно соответствует угловой скорости вращения звёздного неба над неподвижной антенной Big Ear. Самолёт пролетел бы луч за доли секунды, а геостационарный спутник создавал бы постоянный фон. Исключением мог бы стать высокоорбитальный аппарат на вытянутой орбите или редкая гармоника военного радара, отражённая от космического мусора, но прямых доказательств этому за 49 лет не найдено.'
+          ],
+          checks: [
+            { label: 'Запрещённый диапазон 1420 МГц', status: 'Против версии', cls: 'status-no' },
+            { label: 'Профиль 72 с как у звезды', status: 'Трудно имитировать', cls: 'status-no' },
+            { label: 'Появление лишь в одном рупоре', status: 'Аргумент «за»', cls: 'status-yes' },
+            { label: 'Военные/скрытые спутники 1977 г.', status: 'Маловероятно', cls: 'status-warn' }
+          ]
+        },
+        artificial: {
+          title: 'Внеземной разум (техносигнатура / маяк)',
+          paragraphs: [
+            'Именно такой сигнал теоретики SETI ожидали увидеть с 1959 года: мощный, экстремально узкополосный (признак искусственного передатчика), расположенный строго на частоте нейтрального водорода — универсальной физической константе для любой развитой цивилизации.',
+            'Главное возражение против инопланетного маяка — полная немодулированность (мы не увидели в нём закодированной информации, хотя разрешение приёмника в 10 кГц и 12-секундное усреднение могли её скрыть) и абсолютное молчание в течение следующих 49 лет. Возможно, если это был искусственный луч, он просто однажды проскользнул мимо Земли, как свет далёкого маяка, который больше никогда не повернулся в нашу сторону.'
+          ],
+          checks: [
+            { label: 'Частота Коккони–Моррисона 1420 МГц', status: 'Идеально', cls: 'status-yes' },
+            { label: 'Сверхузкая несущая < 10 кГц', status: 'Классика SETI', cls: 'status-yes' },
+            { label: 'Профиль дальнего источника 72 с', status: 'Да', cls: 'status-yes' },
+            { label: 'Повтор сигнала 1977–2026', status: 'Ни одного раза', cls: 'status-no' }
+          ]
+        }
+      };
+
+      const hypoTabs = document.querySelectorAll('.hypo-tab');
+      const hypoDetailEl = document.getElementById('hypo-detail');
+
+      function renderHypo(key) {
+        const d = hypoData[key];
+        hypoDetailEl.innerHTML = `
+          <div>
+            <h3>${d.title}</h3>
+            ${d.paragraphs.map((p) => `<p>${p}</p>`).join('')}
+          </div>
+          <div class="checklist">
+            <span class="mono" style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">
+              Сверка с научными фактами
+            </span>
+            ${d.checks.map((c) => `
+              <div class="check-item">
+                <span>${c.label}</span>
+                <span class="pill-status ${c.cls}">${c.status}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      hypoTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          hypoTabs.forEach((t) => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderHypo(tab.dataset.hypo);
+        });
+      });
+
+      renderHypo('natural');
+    })();
+  </script>
+</body>
+</html>
